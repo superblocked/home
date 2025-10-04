@@ -17,6 +17,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      overflow: hidden;
     }
 
     /* Windows-style window */
@@ -30,7 +31,11 @@
       flex-direction: column;
       overflow: hidden;
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      position: relative;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      cursor: default;
     }
 
     /* Title bar */
@@ -40,8 +45,8 @@
       align-items: center;
       background: #3c3c3c;
       padding: 5px 10px;
-      cursor: default;
       user-select: none;
+      cursor: move;
     }
 
     .title-bar .title {
@@ -56,8 +61,8 @@
     }
 
     .window-button {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -122,12 +127,30 @@
       font-size: 10px;
       text-align: center;
       border-top: 2px solid #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .launcher-footer button {
+      padding: 5px 10px;
+      font-size: 8px;
+      border-radius: 4px;
+      border: none;
+      background: #555;
+      color: #fff;
+      cursor: pointer;
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .launcher-footer button:hover {
+      background: #777;
     }
   </style>
 </head>
 <body>
   <div class="window" id="launcherWindow">
-    <div class="title-bar">
+    <div class="title-bar" id="titleBar">
       <div class="title">Superblocked Launcher</div>
       <div class="window-controls">
         <div class="window-button" onclick="minimizeWindow()">—</div>
@@ -147,41 +170,59 @@
     </div>
 
     <div class="launcher-footer">
-      Superblocked Launcher v1.0
+      <span>Superblocked Launcher v1.0</span>
+      <button onclick="returnHome()">Return Home</button>
     </div>
   </div>
 
   <script>
     const launcher = document.getElementById("launcherWindow");
+    const titleBar = document.getElementById("titleBar");
     let isMaximized = false;
-    let originalSize = {width: launcher.style.width, height: launcher.style.height};
+    let offsetX = 0, offsetY = 0;
+    let isDragging = false;
+
+    // Drag functionality
+    titleBar.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - launcher.offsetLeft;
+      offsetY = e.clientY - launcher.offsetTop;
+      launcher.style.transition = "none"; // disable transition while dragging
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging && !isMaximized) {
+        launcher.style.left = (e.clientX - offsetX) + "px";
+        launcher.style.top = (e.clientY - offsetY) + "px";
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      launcher.style.transition = ""; // restore transition
+    });
 
     function closeWindow() {
       launcher.style.display = "none";
     }
 
     function minimizeWindow() {
-      launcher.style.transform = "scaleY(0)";
-      setTimeout(() => {
-        launcher.style.display = "none";
-        launcher.style.transform = "scaleY(1)";
-      }, 200);
+      launcher.style.display = "none";
     }
 
     function maximizeWindow() {
       if (!isMaximized) {
         launcher.style.width = "90%";
         launcher.style.height = "90%";
-        launcher.style.position = "fixed";
         launcher.style.top = "5%";
         launcher.style.left = "5%";
         isMaximized = true;
       } else {
         launcher.style.width = "360px";
         launcher.style.height = "500px";
-        launcher.style.position = "relative";
-        launcher.style.top = "0";
-        launcher.style.left = "0";
+        launcher.style.top = "50%";
+        launcher.style.left = "50%";
+        launcher.style.transform = "translate(-50%, -50%)";
         isMaximized = false;
       }
     }
@@ -203,6 +244,10 @@
       win.document.body.style.margin = "0";
       win.document.body.style.height = "100vh";
       win.document.body.appendChild(iframe);
+    }
+
+    function returnHome() {
+      window.location.href = "https://superblocked.github.io";
     }
   </script>
 </body>
