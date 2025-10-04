@@ -132,18 +132,23 @@
       align-items: center;
     }
 
-    .launcher-footer button {
+    .launcher-footer span {
+      color: #fff;
+    }
+
+    .footer-button {
       padding: 5px 10px;
       font-size: 8px;
       border-radius: 4px;
-      border: none;
+      text-decoration: none;
       background: #555;
       color: #fff;
       cursor: pointer;
       font-family: 'Press Start 2P', cursive;
+      display: inline-block;
     }
 
-    .launcher-footer button:hover {
+    .footer-button:hover {
       background: #777;
     }
   </style>
@@ -171,7 +176,7 @@
 
     <div class="launcher-footer">
       <span>Superblocked Launcher v1.0</span>
-      <button onclick="returnHome()">Return Home</button>
+      <a href="https://superblocked.github.io/home" class="footer-button">Return Home</a>
     </div>
   </div>
 
@@ -183,13 +188,12 @@
     let isDragging = false;
     let prevPosition = {top: 0, left: 0, width: 0, height: 0};
 
-    // Drag functionality
     titleBar.addEventListener('mousedown', (e) => {
-      if (isMaximized) return; // disable drag when maximized
+      if (isMaximized) return;
       isDragging = true;
       offsetX = e.clientX - launcher.offsetLeft;
       offsetY = e.clientY - launcher.offsetTop;
-      launcher.style.transition = "none"; 
+      launcher.style.transition = "none";
     });
 
     document.addEventListener('mousemove', (e) => {
@@ -201,20 +205,17 @@
 
     document.addEventListener('mouseup', () => {
       isDragging = false;
-      launcher.style.transition = ""; 
+      launcher.style.transition = "";
     });
 
     function closeWindow() {
       launcher.style.display = "none";
     }
-
     function minimizeWindow() {
       launcher.style.display = "none";
     }
-
     function maximizeWindow() {
       if (!isMaximized) {
-        // Save previous position and size
         prevPosition = {
           top: launcher.offsetTop,
           left: launcher.offsetLeft,
@@ -256,10 +257,6 @@
       win.document.body.style.margin = "0";
       win.document.body.style.height = "100vh";
       win.document.body.appendChild(iframe);
-    }
-
-    function returnHome() {
-      window.location.href = "https://superblocked.github.io/home";
     }
   </script>
 </body>
