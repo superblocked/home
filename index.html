@@ -2,54 +2,113 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Minecraft Launcher</title>
+  <title>superblocked</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      margin:0;
-      font-family:sans-serif;
-      background:#000;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
+      margin: 0;
+      font-family: sans-serif;
+      background: #000;
+      color: #fff;
+    }
+    /* Hero section */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100vh; /* always full screen */
+      background: url("https://i.ibb.co/pwncVt1/minecraft-bg.jpg") no-repeat center center/cover;
+      /* 👆 replace with your own background image if you want */
+    }
+    .hero h1 {
+      font-size: 64px;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 0 0 20px #000;
+    }
+    .hero p {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+      text-shadow: 0 0 10px #000;
+    }
+
+    /* Buttons section */
+    .content {
+      display: flex;
+      justify-content: center;
+      padding: 50px 20px;
     }
     .button-grid {
-      display:grid;
-      grid-template-columns:1fr;
-      gap:20px;
-      width:90%;
-      max-width:500px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      width: 90%;
+      max-width: 500px;
     }
     button {
-      width:100%;
-      padding:20px;
-      font-size:18px;
-      font-weight:bold;
-      border:none;
-      border-radius:12px;
-      background:#fff;
-      color:#000;
-      cursor:pointer;
+      width: 100%;
+      padding: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      background: #fff;
+      color: #000;
+      cursor: pointer;
       transition: transform 0.15s ease, background 0.2s ease;
     }
     button:hover {
-      background:#e5e5e5;
+      background: #e5e5e5;
       transform: scale(1.05);
     }
     button:active {
       transform: scale(0.97);
     }
+
+    /* Responsive tweak: 2 columns on wider screens */
+    @media (min-width: 700px) {
+      .button-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="button-grid">
-    <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-8-wasm/')">1.8 (WASM, FAST)</button>
-    <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-8-js-modded/')">1.8 (JAVASCRIPT, MODDED)</button>
-    <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-12-wasm/')">1.12 (WASM, FAST)</button>
-    <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-20-js-modded/')">1.20 (JAVASCRIPT, MODDED, MOCKUP)</button>
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>superblocked</h1>
+    <p>- END DISTRICT CENSORSHIP AND RESTORE OUR FREEDOM -</p>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content">
+    <div class="button-grid" id="buttonGrid"></div>
   </div>
 
   <script>
+    // 🔧 Edit this list to add/remove games easily
+    const games = [
+      { name: "1.8 (WASM, FAST)", url: "https://deathbrood.github.io/minecrafteagler/1-8-wasm/" },
+      { name: "1.8 (JAVASCRIPT, MODDED)", url: "https://deathbrood.github.io/minecrafteagler/1-8-js-modded/" },
+      { name: "1.12 (WASM, FAST)", url: "https://deathbrood.github.io/minecrafteagler/1-12-wasm/" },
+      { name: "1.20 (JAVASCRIPT, MODDED, MOCKUP)", url: "https://deathbrood.github.io/minecrafteagler/1-20-js-modded/" }
+    ];
+
+    // Generate buttons automatically
+    const grid = document.getElementById("buttonGrid");
+    games.forEach(game => {
+      const btn = document.createElement("button");
+      btn.textContent = game.name;
+      btn.onclick = () => openGame(game.url);
+      grid.appendChild(btn);
+    });
+
     function openGame(url) {
       const win = window.open();
       if (!win) {
@@ -69,5 +128,3 @@
   </script>
 </body>
 </html>
-
-
