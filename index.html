@@ -3,16 +3,19 @@
 <head>
   <meta charset="utf-8">
   <title>Superblocked</title>
+
   <!-- Google Fonts: Maven Pro -->
   <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700;900&display=swap" rel="stylesheet">
+
   <style>
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
       font-family: 'Maven Pro', sans-serif;
-      background: #111; /* dark theme */
+      background: #111;
       color: #fff;
       overflow-x: hidden;
     }
@@ -23,6 +26,7 @@
       height: 100vh;
       overflow: hidden;
     }
+
     .parallax-bg {
       position: absolute;
       top: 0;
@@ -52,37 +56,66 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: #000; /* black text for hero */
+      color: #000;
       margin-top: 40px;
     }
+
     .hero-content h1 {
-      font-size: 48px; /* closer to GSite scale */
+      font-size: 48px;
       margin: 0;
-      font-weight: 700; /* bold but not ultra-heavy */
-      letter-spacing: 0;
+      font-weight: 700;
       text-transform: none;
     }
+
     .hero-content p.motto {
-      font-size: 14px; /* small */
+      font-size: 14px;
       font-weight: 700;
       margin-top: 10px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
+
     .hero-content p.emline {
       font-size: 16px;
       margin-top: 12px;
       font-style: italic;
       font-weight: 400;
-      text-transform: none;
     }
 
-    /* Buttons section */
+    /* Content section */
     .content {
       display: flex;
       justify-content: center;
       padding: 50px 20px;
+      flex-direction: column;
+      align-items: center;
     }
+
+    /* Search bar */
+    .search-container {
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      outline: none;
+      font-family: 'Maven Pro', sans-serif;
+      background: #fff;
+      color: #000;
+    }
+
+    .search-container input::placeholder {
+      color: #666;
+      font-weight: 500;
+    }
+
+    /* Buttons grid */
     .button-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -90,6 +123,7 @@
       width: 90%;
       max-width: 500px;
     }
+
     button {
       width: 100%;
       padding: 20px;
@@ -103,10 +137,12 @@
       font-family: 'Maven Pro', sans-serif;
       transition: transform 0.15s ease, background 0.2s ease;
     }
+
     button:hover {
       background: #e5e5e5;
       transform: scale(1.05);
     }
+
     button:active {
       transform: scale(0.97);
     }
@@ -118,6 +154,7 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Hero with parallax -->
   <div class="parallax">
@@ -132,6 +169,13 @@
 
   <!-- Content Section -->
   <div class="content">
+
+    <!-- Search bar -->
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search Cloaked">
+    </div>
+
+    <!-- Buttons -->
     <div class="button-grid" id="buttonGrid"></div>
   </div>
 
@@ -141,6 +185,7 @@
     ];
 
     const grid = document.getElementById("buttonGrid");
+
     games.forEach(game => {
       const btn = document.createElement("button");
       btn.textContent = game.name;
@@ -165,6 +210,18 @@
       win.document.body.appendChild(iframe);
     }
 
+    // Cloaked Google search
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        const query = searchInput.value.trim();
+        if (query) {
+          const searchURL = "https://www.google.com/search?q=" + encodeURIComponent(query);
+          openGame(searchURL);
+        }
+      }
+    });
+
     // Smooth parallax scroll effect
     const bg = document.querySelector('.parallax-bg');
     window.addEventListener('scroll', () => {
@@ -174,5 +231,3 @@
   </script>
 </body>
 </html>
-
-
