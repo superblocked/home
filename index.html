@@ -2,126 +2,106 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>superblocked</title>
-  <!-- Google Fonts: Maven Pro -->
-  <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700;900&display=swap" rel="stylesheet">
+  <title>Superblocked</title>
+  <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@500;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
     body {
       margin: 0;
       font-family: 'Maven Pro', sans-serif;
-      background: #000;
-      color: #fff;
+      background: #fff;
+      color: #000;
     }
 
-    /* Hero section */
+    /* Hero Section */
     .hero {
+      position: relative;
+      height: 100vh;
+      background: url('your-background.jpg') center/cover no-repeat;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      height: 100vh;
-      background: url("https://github.com/Deathbrood/minecrafteagler/blob/ebbf4634705ca56704f4aad7db7120a4cc2c34d7/bg.jpg?raw=true") 
-        no-repeat center center/cover;
-    }
-    .hero h1 {
-      font-size: 48px;
-      margin: 0;
-      font-weight: 900;
-      text-shadow: 0 0 15px rgba(0,0,0,0.6);
-    }
-    .hero .motto {
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 12px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      text-shadow: 0 0 10px rgba(0,0,0,0.7);
-    }
-    .hero .subtext {
-      font-size: 14px;
-      font-style: italic;
-      margin-top: 15px;
-      opacity: 0.9;
+      padding: 0 20px;
     }
 
-    /* Buttons section */
-    .content {
-      display: flex;
-      justify-content: center;
-      padding: 60px 20px;
-      background: #000;
+    /* White overlay */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.7); /* white overlay */
     }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      margin-top: 50px; /* drops the text down */
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      font-weight: 500;
+    }
+
+    /* Main section with buttons */
     .button-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 20px;
       width: 90%;
       max-width: 500px;
-    }
-    button {
-      width: 100%;
-      padding: 18px;
-      font-size: 16px;
-      font-weight: 700;
-      border: none;
-      border-radius: 10px;
-      background: #fff;
-      color: #000;
-      cursor: pointer;
-      font-family: 'Maven Pro', sans-serif;
-      transition: transform 0.15s ease, background 0.2s ease;
-    }
-    button:hover {
-      background: #e5e5e5;
-      transform: scale(1.04);
-    }
-    button:active {
-      transform: scale(0.96);
+      margin: 60px auto;
     }
 
-    /* Responsive tweak: 2 columns on wider screens */
-    @media (min-width: 700px) {
-      .button-grid {
-        grid-template-columns: 1fr 1fr;
-      }
+    button {
+      width: 100%;
+      padding: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      background: #333;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(0.97);
     }
   </style>
 </head>
 <body>
-  <!-- Hero Section -->
-  <div class="hero">
-    <h1>Welcome to Superblocked.</h1>
-    <p class="motto">- END DISTRICT CENSORSHIP AND RESTORE OUR FREEDOM -</p>
-    <p class="subtext">Woah, a site redesign?</p>
-  </div>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Superblocked</h1>
+      <p>- END DISTRICT CENSORSHIP AND RESTORE OUR FREEDOM -</p>
+      <p><em>Woah, a site REMAKE??</em></p>
+    </div>
+  </section>
 
-  <!-- Content Section -->
-  <div class="content">
-    <div class="button-grid" id="buttonGrid"></div>
-  </div>
+  <section>
+    <div class="button-grid">
+      <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-8-wasm/')">1.8 (WASM, FAST)</button>
+      <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-8-js-modded/')">1.8 (JAVASCRIPT, MODDED)</button>
+      <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-12-wasm/')">1.12 (WASM, FAST)</button>
+      <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-20-js-modded/')">1.20 (JAVASCRIPT, MODDED, MOCKUP)</button>
+    </div>
+  </section>
 
   <script>
-    // 🔧 Edit this list to add/remove games easily
-    const games = [
-      { name: "1.8 (WASM, FAST)", url: "https://deathbrood.github.io/minecrafteagler/1-8-wasm/" },
-      { name: "1.8 (JAVASCRIPT, MODDED)", url: "https://deathbrood.github.io/minecrafteagler/1-8-js-modded/" },
-      { name: "1.12 (WASM, FAST)", url: "https://deathbrood.github.io/minecrafteagler/1-12-wasm/" },
-      { name: "1.20 (JAVASCRIPT, MODDED, MOCKUP)", url: "https://deathbrood.github.io/minecrafteagler/1-20-js-modded/" }
-    ];
-
-    // Generate buttons automatically
-    const grid = document.getElementById("buttonGrid");
-    games.forEach(game => {
-      const btn = document.createElement("button");
-      btn.textContent = game.name;
-      btn.onclick = () => openGame(game.url);
-      grid.appendChild(btn);
-    });
-
     function openGame(url) {
       const win = window.open();
       if (!win) {
