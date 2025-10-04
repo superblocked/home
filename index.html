@@ -3,105 +3,141 @@
 <head>
   <meta charset="utf-8">
   <title>Superblocked</title>
-  <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Maven Pro -->
+  <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'Maven Pro', sans-serif;
-      background: #fff;
-      color: #000;
+      background: #000;
+      color: #fff;
     }
 
-    /* Hero Section */
+    /* Hero section with parallax */
     .hero {
       position: relative;
-      height: 100vh;
-      background: url('your-background.jpg') center/cover no-repeat;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 0 20px;
+      height: 100vh;
+      background: url("https://github.com/Deathbrood/minecrafteagler/blob/ebbf4634705ca56704f4aad7db7120a4cc2c34d7/bg.jpg") no-repeat center center/cover;
+      background-attachment: fixed; /* parallax effect */
     }
 
-    /* White overlay */
+    /* White tint overlay */
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(255, 255, 255, 0.7); /* white overlay */
+      background: rgba(255, 255, 255, 0.5);
+      z-index: 0;
     }
 
     .hero-content {
       position: relative;
       z-index: 1;
-      margin-top: 50px; /* drops the text down */
+      margin-top: 60px; /* drop text down slightly */
+      color: #000; /* black text */
     }
 
     .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 15px;
-      font-weight: 700;
+      font-size: 64px;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 900;
     }
 
     .hero p {
-      font-size: 1.3rem;
-      font-weight: 500;
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 10px;
     }
 
-    /* Main section with buttons */
+    /* Buttons section */
+    .content {
+      display: flex;
+      justify-content: center;
+      padding: 50px 20px;
+    }
+
     .button-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 20px;
       width: 90%;
       max-width: 500px;
-      margin: 60px auto;
     }
 
     button {
       width: 100%;
       padding: 20px;
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 700;
       border: none;
       border-radius: 12px;
-      background: #000;
-      color: #fff;
+      background: #fff;
+      color: #000;
       cursor: pointer;
+      font-family: 'Maven Pro', sans-serif;
       transition: transform 0.15s ease, background 0.2s ease;
     }
 
     button:hover {
-      background: #333;
+      background: #e5e5e5;
       transform: scale(1.05);
     }
 
     button:active {
       transform: scale(0.97);
     }
+
+    /* Responsive tweak: 2 columns on wider screens */
+    @media (min-width: 700px) {
+      .button-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
   </style>
 </head>
 <body>
-  <section class="hero">
+  <!-- Hero Section -->
+  <div class="hero">
     <div class="hero-content">
       <h1>Superblocked</h1>
       <p>- END DISTRICT CENSORSHIP AND RESTORE OUR FREEDOM -</p>
       <p><em>Woah, a site REMAKE??</em></p>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <div class="button-grid">
-      <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-8-wasm/')">1.8 (WASM, FAST)</button>
-      <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-8-js-modded/')">1.8 (JAVASCRIPT, MODDED)</button>
-      <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-12-wasm/')">1.12 (WASM, FAST)</button>
-      <button onclick="openGame('https://deathbrood.github.io/minecrafteagler/1-20-js-modded/')">1.20 (JAVASCRIPT, MODDED, MOCKUP)</button>
-    </div>
-  </section>
+  <!-- Content Section -->
+  <div class="content">
+    <div class="button-grid" id="buttonGrid"></div>
+  </div>
 
   <script>
+    // 🔧 Edit this list to add/remove games easily
+    const games = [
+      { name: "1.8 (WASM, FAST)", url: "https://deathbrood.github.io/minecrafteagler/1-8-wasm/" },
+      { name: "1.8 (JAVASCRIPT, MODDED)", url: "https://deathbrood.github.io/minecrafteagler/1-8-js-modded/" },
+      { name: "1.12 (WASM, FAST)", url: "https://deathbrood.github.io/minecrafteagler/1-12-wasm/" },
+      { name: "1.20 (JAVASCRIPT, MODDED, MOCKUP)", url: "https://deathbrood.github.io/minecrafteagler/1-20-js-modded/" }
+    ];
+
+    // Generate buttons automatically
+    const grid = document.getElementById("buttonGrid");
+    games.forEach(game => {
+      const btn = document.createElement("button");
+      btn.textContent = game.name;
+      btn.onclick = () => openGame(game.url);
+      grid.appendChild(btn);
+    });
+
     function openGame(url) {
       const win = window.open();
       if (!win) {
