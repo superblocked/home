@@ -172,7 +172,7 @@
 
     <!-- Search bar -->
     <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search Cloaked">
+      <input type="text" id="searchInput" placeholder="Cloaked DuckDuckGo">
     </div>
 
     <!-- Buttons -->
@@ -210,13 +210,13 @@
       win.document.body.appendChild(iframe);
     }
 
-    // Cloaked Google search
+    // Cloaked search
     const searchInput = document.getElementById("searchInput");
     searchInput.addEventListener("keypress", function (e) {
       if (e.key === "Enter") {
         const query = searchInput.value.trim();
         if (query) {
-          const searchURL = "https://www.google.com/search?q=" + encodeURIComponent(query);
+          const searchURL = "https://duckduckgo.com/?q=" + encodeURIComponent(query);
           openGame(searchURL);
         }
       }
@@ -231,3 +231,4 @@
   </script>
 </body>
 </html>
+
