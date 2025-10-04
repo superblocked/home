@@ -12,7 +12,7 @@
     body {
       margin: 0;
       font-family: 'Maven Pro', sans-serif;
-      background: #000; /* default dark theme */
+      background: #000;
       color: #fff;
       overflow-x: hidden;
     }
@@ -38,7 +38,7 @@
     .parallax-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(255, 255, 255, 0.5); /* semi-transparent white for readability */
+      background: rgba(255, 255, 255, 0.5); /* semi-transparent white */
       z-index: 1;
     }
 
@@ -52,7 +52,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: #000; /* black text for hero */
+      color: #111; /* slightly grey text */
       margin-top: 40px;
     }
     .hero-content h1 {
@@ -68,16 +68,12 @@
       margin-top: 10px;
     }
 
-    /* Content (dark themed after hero) */
+    /* Buttons section */
     .content {
       display: flex;
       justify-content: center;
       padding: 50px 20px;
-      background: #000; /* back to dark mode */
-      color: #fff;
     }
-
-    /* Buttons section */
     .button-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -93,7 +89,7 @@
       border: none;
       border-radius: 12px;
       background: #fff;
-      color: #000;
+      color: #111; /* slightly grey text */
       cursor: pointer;
       font-family: 'Maven Pro', sans-serif;
       transition: transform 0.15s ease, background 0.2s ease;
@@ -126,7 +122,7 @@
     </div>
   </div>
 
-  <!-- Dark theme content section -->
+  <!-- Content Section -->
   <div class="content">
     <div class="button-grid" id="buttonGrid"></div>
   </div>
