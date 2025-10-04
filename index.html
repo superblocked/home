@@ -15,7 +15,7 @@
     body {
       margin: 0;
       font-family: 'Maven Pro', sans-serif;
-      background: #111;
+      background: #111; /* dark theme */
       color: #fff;
       overflow-x: hidden;
     }
@@ -56,19 +56,20 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: #000;
+      color: #000; /* black text for hero */
       margin-top: 40px;
     }
 
     .hero-content h1 {
-      font-size: 48px;
+      font-size: 48px; /* closer to GSite scale */
       margin: 0;
-      font-weight: 700;
+      font-weight: 700; /* bold but not ultra-heavy */
+      letter-spacing: 0;
       text-transform: none;
     }
 
     .hero-content p.motto {
-      font-size: 14px;
+      font-size: 14px; /* small */
       font-weight: 700;
       margin-top: 10px;
       text-transform: uppercase;
@@ -80,42 +81,16 @@
       margin-top: 12px;
       font-style: italic;
       font-weight: 400;
+      text-transform: none;
     }
 
-    /* Content section */
+    /* Buttons section */
     .content {
       display: flex;
       justify-content: center;
       padding: 50px 20px;
-      flex-direction: column;
-      align-items: center;
     }
 
-    /* Search bar */
-    .search-container {
-      width: 90%;
-      max-width: 500px;
-      margin-bottom: 30px;
-    }
-
-    .search-container input {
-      width: 100%;
-      padding: 15px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 30px;
-      outline: none;
-      font-family: 'Maven Pro', sans-serif;
-      background: #fff;
-      color: #000;
-    }
-
-    .search-container input::placeholder {
-      color: #666;
-      font-weight: 500;
-    }
-
-    /* Buttons grid */
     .button-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -169,13 +144,6 @@
 
   <!-- Content Section -->
   <div class="content">
-
-    <!-- Search bar -->
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Cloaked DuckDuckGo">
-    </div>
-
-    <!-- Buttons -->
     <div class="button-grid" id="buttonGrid"></div>
   </div>
 
@@ -199,28 +167,18 @@
         alert('Popup blocked — please allow popups for this site.');
         return;
       }
+
       const iframe = document.createElement("iframe");
       iframe.src = url;
       iframe.style.width = "100%";
       iframe.style.height = "100%";
       iframe.style.border = "none";
       iframe.style.margin = "0";
+
       win.document.body.style.margin = "0";
       win.document.body.style.height = "100vh";
       win.document.body.appendChild(iframe);
     }
-
-    // Cloaked search
-    const searchInput = document.getElementById("searchInput");
-    searchInput.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        const query = searchInput.value.trim();
-        if (query) {
-          const searchURL = "https://duckduckgo.com/?q=" + encodeURIComponent(query);
-          openGame(searchURL);
-        }
-      }
-    });
 
     // Smooth parallax scroll effect
     const bg = document.querySelector('.parallax-bg');
@@ -231,4 +189,3 @@
   </script>
 </body>
 </html>
-
