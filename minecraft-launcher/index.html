@@ -181,17 +181,19 @@
     let isMaximized = false;
     let offsetX = 0, offsetY = 0;
     let isDragging = false;
+    let prevPosition = {top: 0, left: 0, width: 0, height: 0};
 
     // Drag functionality
     titleBar.addEventListener('mousedown', (e) => {
+      if (isMaximized) return; // disable drag when maximized
       isDragging = true;
       offsetX = e.clientX - launcher.offsetLeft;
       offsetY = e.clientY - launcher.offsetTop;
-      launcher.style.transition = "none"; // disable transition while dragging
+      launcher.style.transition = "none"; 
     });
 
     document.addEventListener('mousemove', (e) => {
-      if (isDragging && !isMaximized) {
+      if (isDragging) {
         launcher.style.left = (e.clientX - offsetX) + "px";
         launcher.style.top = (e.clientY - offsetY) + "px";
       }
@@ -199,7 +201,7 @@
 
     document.addEventListener('mouseup', () => {
       isDragging = false;
-      launcher.style.transition = ""; // restore transition
+      launcher.style.transition = ""; 
     });
 
     function closeWindow() {
@@ -212,16 +214,26 @@
 
     function maximizeWindow() {
       if (!isMaximized) {
-        launcher.style.width = "90%";
-        launcher.style.height = "90%";
-        launcher.style.top = "5%";
-        launcher.style.left = "5%";
+        // Save previous position and size
+        prevPosition = {
+          top: launcher.offsetTop,
+          left: launcher.offsetLeft,
+          width: launcher.offsetWidth,
+          height: launcher.offsetHeight
+        };
+        launcher.style.top = "0";
+        launcher.style.left = "0";
+        launcher.style.width = "100%";
+        launcher.style.height = "100%";
+        launcher.style.transform = "none";
+        launcher.style.position = "fixed";
         isMaximized = true;
       } else {
-        launcher.style.width = "360px";
-        launcher.style.height = "500px";
-        launcher.style.top = "50%";
-        launcher.style.left = "50%";
+        launcher.style.position = "absolute";
+        launcher.style.top = prevPosition.top + "px";
+        launcher.style.left = prevPosition.left + "px";
+        launcher.style.width = prevPosition.width + "px";
+        launcher.style.height = prevPosition.height + "px";
         launcher.style.transform = "translate(-50%, -50%)";
         isMaximized = false;
       }
