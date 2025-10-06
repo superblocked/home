@@ -15,9 +15,31 @@
     body {
       margin: 0;
       font-family: 'Maven Pro', sans-serif;
-      background: #111; /* dark theme */
+      background: #111;
       color: #fff;
       overflow-x: hidden;
+    }
+
+    /* Parallax background */
+    .parallax-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: url("https://github.com/superblocked/home/blob/ebbf4634705ca56704f4aad7db7120a4cc2c34d7/bg.jpg?raw=true") no-repeat center center;
+      background-size: cover;
+      z-index: 0;
+      transform: translateY(0);
+      will-change: transform;
+    }
+
+    /* Overlay to tint background */
+    .parallax-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.5);
+      z-index: 1;
     }
 
     /* Parallax container */
@@ -27,26 +49,7 @@
       overflow: hidden;
     }
 
-    .parallax-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 120%;
-      background: url("https://github.com/superblocked/home/blob/ebbf4634705ca56704f4aad7db7120a4cc2c34d7/bg.jpg?raw=true") no-repeat center/cover;
-      transform: translateY(0);
-      z-index: 0;
-    }
-
-    /* White overlay tint */
-    .parallax-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(255, 255, 255, 0.5);
-      z-index: 1;
-    }
-
-    /* Hero content */
+    /* Hero section */
     .hero-content {
       position: relative;
       z-index: 2;
@@ -56,20 +59,23 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: #000; /* black text for hero */
-      margin-top: 40px;
+      color: #000;
+      padding: 0 20px;
+    }
+
+    .hero-content h1,
+    .hero-content p {
+      line-height: 2;
     }
 
     .hero-content h1 {
-      font-size: 48px; /* closer to GSite scale */
+      font-size: 48px;
       margin: 0;
-      font-weight: 700; /* bold but not ultra-heavy */
-      letter-spacing: 0;
-      text-transform: none;
+      font-weight: 700;
     }
 
     .hero-content p.motto {
-      font-size: 14px; /* small */
+      font-size: 14px;
       font-weight: 700;
       margin-top: 10px;
       text-transform: uppercase;
@@ -81,14 +87,16 @@
       margin-top: 12px;
       font-style: italic;
       font-weight: 400;
-      text-transform: none;
     }
 
-    /* Buttons section */
+    /* Buttons Section */
     .content {
       display: flex;
       justify-content: center;
-      padding: 50px 20px;
+      padding: 100px 20px;
+      background: #111;
+      position: relative;
+      z-index: 3;
     }
 
     .button-grid {
@@ -96,7 +104,13 @@
       grid-template-columns: 1fr;
       gap: 20px;
       width: 90%;
-      max-width: 500px;
+      max-width: 600px;
+    }
+
+    @media (min-width: 700px) {
+      .button-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     button {
@@ -121,19 +135,15 @@
     button:active {
       transform: scale(0.97);
     }
-
-    @media (min-width: 700px) {
-      .button-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
   </style>
 </head>
 
 <body>
-  <!-- Hero with parallax -->
+  <!-- Fixed Parallax Background -->
+  <div class="parallax-bg" id="bg"></div>
+
+  <!-- Hero Section -->
   <div class="parallax">
-    <div class="parallax-bg"></div>
     <div class="parallax-overlay"></div>
     <div class="hero-content">
       <h1>Welcome to Superblocked.</h1>
@@ -142,14 +152,20 @@
     </div>
   </div>
 
-  <!-- Content Section -->
+  <!-- Game Buttons Section -->
   <div class="content">
     <div class="button-grid" id="buttonGrid"></div>
   </div>
 
   <script>
+    // 🎮 Easy to edit list of games
     const games = [
-      { name: "Minecraft Launcher", url: "https://superblocked.github.io/home/minecraft-launcher/" }
+      { name: "Minecraft Launcher", url: "https://superblocked.github.io/home/minecraft-launcher/" },
+      { name: "Tunnel Rush", url: "https://example.com/tunnel-rush" },
+      { name: "Slope", url: "https://example.com/slope" },
+      { name: "Retro Bowl", url: "https://example.com/retro-bowl" },
+      { name: "Shell Shockers", url: "https://example.com/shell-shockers" }
+      // 👉 Add more here
     ];
 
     const grid = document.getElementById("buttonGrid");
@@ -180,11 +196,11 @@
       win.document.body.appendChild(iframe);
     }
 
-    // Smooth parallax scroll effect
-    const bg = document.querySelector('.parallax-bg');
+    // Subtle Parallax Effect
+    const bg = document.getElementById('bg');
     window.addEventListener('scroll', () => {
       let scrollY = window.scrollY;
-      bg.style.transform = `translateY(${scrollY * 0.4}px)`;
+      bg.style.transform = `translateY(${scrollY * 0.2}px)`;
     });
   </script>
 </body>
