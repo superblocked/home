@@ -11,7 +11,7 @@
     }
 
     html {
-      scroll-behavior: auto; /* Removed smooth scroll */
+      scroll-behavior: auto;
     }
 
     body {
@@ -20,11 +20,10 @@
       background: #111;
       color: #fff;
       overflow-x: hidden;
-      overflow-y: auto;
-      overscroll-behavior: none; /* prevent background from showing on overscroll */
+      overscroll-behavior: none;
     }
 
-    /* Hero container with scrolling image */
+    /* Hero Section Container */
     .parallax {
       position: relative;
       height: 100vh;
@@ -33,6 +32,7 @@
       z-index: 2;
     }
 
+    /* Background Image (center-tracked scroll) */
     .parallax-bg {
       position: absolute;
       top: 50%;
@@ -44,6 +44,7 @@
       transform: translate(-50%, -50%);
       z-index: 0;
       pointer-events: none;
+      transition: opacity 0.4s ease;
     }
 
     /* Overlay tint */
@@ -53,6 +54,7 @@
       background: rgba(255, 255, 255, 0.45);
       z-index: 1;
       pointer-events: none;
+      transition: opacity 0.4s ease;
     }
 
     /* Hero content */
@@ -139,12 +141,10 @@
       transform: scale(0.97);
     }
 
-    /* fade out the hero bg once you scroll past it */
+    /* Fade-out effect after hero */
     .fade-out {
       opacity: 0;
-      transition: opacity 0.4s ease;
     }
-
   </style>
 </head>
 <body>
@@ -199,23 +199,34 @@
       win.document.body.appendChild(iframe);
     }
 
-    // Hide background when scrolled past hero
+    // 🌀 Center-tracked background
     const bg = document.getElementById('bg');
     const overlay = document.getElementById('overlay');
     const hero = document.getElementById('hero');
 
-    window.addEventListener('scroll', () => {
-      const heroBottom = hero.offsetHeight;
-      const scrollY = window.scrollY;
+    function updateBackground() {
+      const rect = hero.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const heroCenter = rect.top + rect.height / 2;
+      const viewportCenter = viewportHeight / 2;
 
-      if (scrollY >= heroBottom - 100) {
+      // keep the background centered relative to visible hero portion
+      const offset = heroCenter - viewportCenter;
+      bg.style.transform = `translate(-50%, calc(-50% + ${offset * 0.5}px)) scale(1.05)`;
+
+      // fade out when fully past hero
+      if (rect.bottom < 0 || rect.top > viewportHeight) {
         bg.classList.add('fade-out');
         overlay.classList.add('fade-out');
       } else {
         bg.classList.remove('fade-out');
         overlay.classList.remove('fade-out');
       }
-    });
+
+      requestAnimationFrame(updateBackground);
+    }
+
+    requestAnimationFrame(updateBackground);
   </script>
 </body>
 </html>
