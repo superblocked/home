@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Superblocked</title>
+  <!-- Google Fonts: Maven Pro -->
   <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     * {
@@ -25,12 +26,11 @@
       height: 100vh;
       overflow: hidden;
       z-index: 1;
-      clip-path: inset(0 0 0 0 round 0);
     }
 
-    /* The background container stays centered */
+    /* Background image — stays centered as you scroll */
     .hero-bg {
-      position: fixed;
+      position: absolute;
       top: 50%;
       left: 50%;
       width: 110vw;
@@ -40,13 +40,14 @@
       transform: translate(-50%, -50%);
       z-index: 0;
       pointer-events: none;
+      will-change: transform;
     }
 
-    /* Grey overlay tint */
+    /* White overlay tint */
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(255,255,255,0.45);
+      background: rgba(255, 255, 255, 0.45);
       z-index: 1;
       pointer-events: none;
     }
@@ -65,7 +66,7 @@
     }
 
     .hero-content h1 {
-      font-size: clamp(26px, 5vw, 48px);
+      font-size: clamp(26px, 5vw, 44px);
       font-weight: 900;
       margin: 0 0 12px 0;
       line-height: 1.2;
@@ -129,8 +130,8 @@
   </style>
 </head>
 <body>
-  <div class="hero">
-    <div class="hero-bg"></div>
+  <div class="hero" id="hero">
+    <div class="hero-bg" id="heroBg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>Welcome to Superblocked.</h1>
@@ -144,7 +145,25 @@
   </div>
 
   <script>
-    // Add game buttons dynamically
+    // ✅ Keeps the hero image centered relative to its visible section
+    const hero = document.getElementById('hero');
+    const heroBg = document.getElementById('heroBg');
+
+    function updateHeroPosition() {
+      const rect = hero.getBoundingClientRect();
+      const heroCenter = rect.top + rect.height / 2;
+      const viewportCenter = window.innerHeight / 2;
+
+      // Offset makes the background subtly follow scroll, keeping centered
+      const offset = (heroCenter - viewportCenter) * 0.3;
+      heroBg.style.transform = `translate(-50%, calc(-50% + ${offset}px))`;
+
+      requestAnimationFrame(updateHeroPosition);
+    }
+
+    requestAnimationFrame(updateHeroPosition);
+
+    // 🎮 Game buttons
     const games = [
       { name: "Minecraft Launcher", url: "https://superblocked.github.io/home/minecraft-launcher/" },
       { name: "Tunnel Rush", url: "#" },
