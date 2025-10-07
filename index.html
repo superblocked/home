@@ -3,17 +3,15 @@
 <head>
   <meta charset="utf-8">
   <title>Superblocked</title>
-
   <!-- Google Fonts: Maven Pro -->
   <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700;900&display=swap" rel="stylesheet">
-
   <style>
     * {
       box-sizing: border-box;
     }
 
     html {
-      scroll-behavior: smooth;
+      scroll-behavior: auto; /* Removed smooth scroll */
     }
 
     body {
@@ -23,46 +21,44 @@
       color: #fff;
       overflow-x: hidden;
       overflow-y: auto;
+      overscroll-behavior: none; /* prevent background from showing on overscroll */
     }
 
-    /* Fixed Parallax Background */
+    /* Hero container with scrolling image */
+    .parallax {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      z-index: 2;
+    }
+
     .parallax-bg {
-      position: fixed;
-      top: -5vh; /* slightly cropped to hide black edges */
-      left: -5vw;
-      width: 110vw;
-      height: 110vh;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 110%;
+      height: 110%;
       background: url("https://github.com/superblocked/home/blob/ebbf4634705ca56704f4aad7db7120a4cc2c34d7/bg.jpg?raw=true") no-repeat center center;
       background-size: cover;
+      transform: translate(-50%, -50%);
       z-index: 0;
-      transform: scale(1.08) translateY(0);
-      will-change: transform;
-      transition: transform 0.1s linear, opacity 0.4s ease;
       pointer-events: none;
     }
 
     /* Overlay tint */
     .parallax-overlay {
-      position: fixed;
+      position: absolute;
       inset: 0;
       background: rgba(255, 255, 255, 0.45);
       z-index: 1;
       pointer-events: none;
-      transition: opacity 0.4s ease;
     }
 
-    /* Parallax container */
-    .parallax {
-      position: relative;
-      height: 100vh;
-      overflow: hidden;
-      z-index: 2;
-    }
-
-    /* Hero Section */
+    /* Hero content */
     .hero-content {
       position: relative;
-      z-index: 3;
+      z-index: 2;
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -74,7 +70,7 @@
     }
 
     .hero-content h1 {
-      font-size: clamp(26px, 5vw, 50px); /* smaller than before */
+      font-size: clamp(26px, 5vw, 50px);
       font-weight: 900;
       margin: 0 0 16px 0;
       line-height: 1.3;
@@ -96,14 +92,14 @@
       line-height: 1.6;
     }
 
-    /* Buttons Section */
+    /* Game Buttons Section */
     .content {
       display: flex;
       justify-content: center;
       padding: 100px 20px;
       background: #111;
       position: relative;
-      z-index: 4;
+      z-index: 3;
     }
 
     .button-grid {
@@ -142,16 +138,20 @@
     button:active {
       transform: scale(0.97);
     }
+
+    /* fade out the hero bg once you scroll past it */
+    .fade-out {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
   </style>
 </head>
-
 <body>
-  <!-- Fixed Parallax Background -->
-  <div class="parallax-bg" id="bg"></div>
-  <div class="parallax-overlay" id="overlay"></div>
-
   <!-- Hero Section -->
   <div class="parallax" id="hero">
+    <div class="parallax-bg" id="bg"></div>
+    <div class="parallax-overlay" id="overlay"></div>
     <div class="hero-content">
       <h1>Welcome to Superblocked.</h1>
       <p class="motto">-END DISTRICT CENSORSHIP AND RESTORE OUR FREEDOM-</p>
@@ -199,32 +199,23 @@
       win.document.body.appendChild(iframe);
     }
 
-    // ✨ Smooth interpolated parallax
+    // Hide background when scrolled past hero
     const bg = document.getElementById('bg');
     const overlay = document.getElementById('overlay');
     const hero = document.getElementById('hero');
-    let currentY = 0;
 
-    function updateParallax() {
-      const scrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
       const heroBottom = hero.offsetHeight;
-      const targetY = scrollY * 0.08; // subtle movement
-      currentY += (targetY - currentY) * 0.08;
-      bg.style.transform = `scale(1.08) translateY(${currentY}px)`;
+      const scrollY = window.scrollY;
 
-      // Hide background completely after hero section (and bottom overscroll)
-      if (scrollY >= heroBottom - 50 || scrollY < -10) {
-        bg.style.opacity = "0";
-        overlay.style.opacity = "0";
+      if (scrollY >= heroBottom - 100) {
+        bg.classList.add('fade-out');
+        overlay.classList.add('fade-out');
       } else {
-        bg.style.opacity = "1";
-        overlay.style.opacity = "1";
+        bg.classList.remove('fade-out');
+        overlay.classList.remove('fade-out');
       }
-
-      requestAnimationFrame(updateParallax);
-    }
-
-    requestAnimationFrame(updateParallax);
+    });
   </script>
 </body>
 </html>
